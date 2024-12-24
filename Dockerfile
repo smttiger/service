@@ -8,7 +8,7 @@ LABEL maintainer="siarhei_fabiyanski@epam.com"
 WORKDIR /app
 
 # Copy the built JAR file from your host machine into the Docker image
-COPY target/service-0.0.1-SNAPSHOT.jar app.jar
+COPY target/service-*.jar app.jar
 
 # Expose the port your Spring Boot application uses
 EXPOSE 8080
