@@ -1,17 +1,17 @@
 # Use the official OpenJDK image for Java 17
 FROM openjdk:17-oracle
 
-# Optional: Set a maintainer or author label
-LABEL maintainer="siarhei_fabiyanski@epam.com"
-
-# Set a working directory inside the Docker image
-WORKDIR /app
-
-# Copy the built JAR file from your host machine into the Docker image
-COPY target/service-*.jar app.jar
-
-# Expose the port your Spring Boot application uses
+# Optionally specify default port exposure
 EXPOSE 8080
 
-# Define the command to run your application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Add a volume pointing to /tmp
+VOLUME /tmp
+
+# The application's jar file
+ARG JAR_FILE=target/*.jar
+
+# Add the application's jar to the container
+ADD ${JAR_FILE} app.jar
+
+# Run the jar file
+ENTRYPOINT ["java","-jar","/app.jar"]
