@@ -1,17 +1,16 @@
 # Use the official OpenJDK image for Java 17
 FROM openjdk:17-oracle
 
-# Optionally specify default port exposure
-EXPOSE 8080
+USER 0
+RUN mkdir /home/app
+WORKDIR /home/app
 
-# Add a volume pointing to /tmp
-VOLUME /tmp
+COPY target/service-*.jar /home/app/app.jar
 
-# The application's jar file
-ARG JAR_FILE=target/service-0.0.1-SNAPSHOT.jar
+RUN chgrp -R 0 /home/app && \
+    chmod -R g=u /home/app
 
-# Add the application's jar to the container
-ADD ${JAR_FILE} app.jar
+USER 1001
 
-# Run the jar file
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+ENTRYPOINT ["java", "-jar", "/home/app/app.jar"]
